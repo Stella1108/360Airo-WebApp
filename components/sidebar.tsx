@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 const NAVY_BLUE = '#2C2C2E';
@@ -11,7 +11,7 @@ const SECTIONS = [
   {
     id: 'overview',
     label: 'Dashboard',
-    path: '/',                    
+    path: '/dashboard',
     iconSrc: '/images/home-icon.png',
   },
   {
@@ -72,7 +72,6 @@ export function CompactSidebar({
   const [isHovered, setIsHovered] = useState(false);
 
   const activeSectionId = useMemo(() => {
-    if (pathname === '/') return 'overview';
     if (pathname.startsWith('/dashboard')) return 'overview';
     if (pathname.startsWith('/campaign') || pathname.startsWith('/calls'))
       return 'campaigns';
@@ -95,20 +94,13 @@ export function CompactSidebar({
     return 'overview';
   }, [pathname]);
 
-  const sidebarWidth = isHovered ? 200 : 70;
-  const gap = 0;
-  const spacing = 0;
-  const sidebarLeft = 0;
-  const contentLeft = sidebarWidth + spacing;
+  const sidebarWidth = isHovered ? 180 : 64;
+  const gap = 10;
+  const spacing = 2;
+  const sidebarLeft = isHovered ? gap : 0;
 
+  const contentLeft = isHovered ? 138 : 66;
   const borderRadius = isHovered ? '30px' : '8px 28px 28px 8px';
-
-  const handleNavClick = (sec: typeof SECTIONS[0]) => {
-    onTabChangeAction?.(sec.id);
-    if (sec.path !== pathname) {
-      router.push(sec.path);
-    }
-  };
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-blue-100 to-white">
@@ -119,7 +111,7 @@ export function CompactSidebar({
               margin: 0;
               padding: 0;
               overflow-x: hidden;
-            
+            }
 
             .sidebar-shell {
               position: fixed;
@@ -129,7 +121,7 @@ export function CompactSidebar({
               z-index: 40;
               height: 50vh;
               width: ${sidebarWidth}px;
-              border: none;                      /* 🔥 removed border */
+              border: 1px solid rgba(226, 232, 240, 0.7);
               background: rgba(255,255,255,0.95);
               box-shadow: 0 20px 50px rgba(15,23,42,0.12);
               backdrop-filter: blur(18px);
@@ -194,7 +186,6 @@ export function CompactSidebar({
               transition: all 0.2s ease;
               white-space: nowrap;
               overflow: hidden;
-              
             }
 
             .text-hidden {
@@ -210,7 +201,7 @@ export function CompactSidebar({
             }
 
             .divider {
-              margin: 1px 12px;
+              margin: 2px 12px;
               height: 1px;
               background-color: rgba(148, 163, 184, 0.5);
             }
@@ -270,7 +261,7 @@ export function CompactSidebar({
 
             .bottom-block {
               margin-top: auto;
-              padding-bottom: 2px;
+              padding-bottom: 4px;
               display: flex;
               flex-direction: column;
               gap: 0;
@@ -299,8 +290,12 @@ export function CompactSidebar({
                 <button
                   key={sec.id}
                   className="nav-item"
-                  onClick={() => handleNavClick(sec)}
+                  onClick={() => {
+                    router.push(sec.path);
+                    onTabChangeAction?.(sec.id);
+                  }}
                   title={sec.label}
+                  type="button"
                 >
                   <span className="nav-item-icon">
                     <Image

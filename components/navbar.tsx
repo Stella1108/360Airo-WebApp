@@ -44,12 +44,12 @@ export function Navbar({ user }: { user?: UserInfo }) {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 0 112px;
+          padding: 0 42px;
           box-sizing: border-box;
-          position: fixed;        /* 👈 changed from sticky to fixed */
-          top: 0;                 /* pinned to top of viewport */
-          left: 0;                /* ensures it spans full width */
-          z-index: 9999;          /* high z-index to stay above everything */
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 9999;
           transition: padding 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
           background: #dbeafe;
           border: none;
@@ -68,11 +68,12 @@ export function Navbar({ user }: { user?: UserInfo }) {
           align-items: center;
           gap: 10px;
           min-width: 180px;
+          transform: translateX(80px);
           transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .topbar.scrolled .left-group {
-          transform: translateX(-8px);
+          transform: translateX(6px);
         }
 
         .brand-icon {
@@ -95,17 +96,16 @@ export function Navbar({ user }: { user?: UserInfo }) {
           align-items: center;
           gap: 20px;
           margin-left: auto;
-          margin-right: 20px;
+          margin-right: 0px;
           transition: opacity 0.4s ease, transform 0.4s ease;
         }
 
         .topbar.scrolled .right-group {
           opacity: 0;
-          transform: translateX(24px);
+          transform: translateX(44px);
           pointer-events: none;
         }
 
-        /* SEARCH */
         .search-wrap {
           width: 349.32px;
           height: 53px;
@@ -147,7 +147,6 @@ export function Navbar({ user }: { user?: UserInfo }) {
           line-height: 28.91px;
         }
 
-        /* NOTIFICATION */
         .bell-btn {
           width: 26px;
           height: 29px;
@@ -167,7 +166,6 @@ export function Navbar({ user }: { user?: UserInfo }) {
           color: #111827;
         }
 
-        /* AVATAR */
         .avatar {
           width: 50px;
           height: 50px;
@@ -188,24 +186,38 @@ export function Navbar({ user }: { user?: UserInfo }) {
           .topbar {
             padding: 0 16px;
           }
+
           .topbar.scrolled {
             padding-left: 12px;
           }
+
+          .left-group {
+            transform: translateX(6px);
+          }
+
+          .topbar.scrolled .left-group {
+            transform: translateX(2px);
+          }
+
           .brand-text {
             font-size: 15px;
           }
+
           .search-wrap {
             width: 220px;
             height: 48px;
             padding: 0 18px;
           }
+
           .right-group {
             margin-right: 10px;
           }
+
           .avatar {
             width: 42px;
             height: 42px;
           }
+
           .bell-icon {
             width: 22px;
             height: 22px;
@@ -239,7 +251,13 @@ export function Navbar({ user }: { user?: UserInfo }) {
               strokeWidth="1.81"
               strokeLinecap="round"
             />
-            <circle cx="11" cy="11" r="7" stroke="currentColor" strokeWidth="1.81" />
+            <circle
+              cx="11"
+              cy="11"
+              r="7"
+              stroke="currentColor"
+              strokeWidth="1.81"
+            />
           </svg>
           <input
             className="search-input"
@@ -275,6 +293,11 @@ export function Navbar({ user }: { user?: UserInfo }) {
         <div
           className="avatar"
           onClick={() => router.push('/profile')}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              router.push('/profile');
+            }
+          }}
           role="button"
           tabIndex={0}
         >

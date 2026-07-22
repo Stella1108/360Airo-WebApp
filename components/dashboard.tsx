@@ -648,7 +648,7 @@ const ComprehensiveDashboard = ({ userName }: { userName: string }) => {
   // 5.1 RENDER – FULL JSX (unchanged from your original)
   // ================================================================
   return (
-    <div className="space-y-7 pb-6 pt-10">
+    <div className="space-y-7 pb-6 pt-5">
       <>
         <style jsx>{`
           @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap');
