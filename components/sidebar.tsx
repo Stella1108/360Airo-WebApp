@@ -194,7 +194,7 @@ export function CompactSidebar({
               transition: all 0.2s ease;
               white-space: nowrap;
               overflow: hidden;
-              max-width: 90px;
+              
             }
 
             .text-hidden {
