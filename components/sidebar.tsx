@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 
 const NAVY_BLUE = '#2C2C2E';
@@ -71,36 +71,65 @@ export function CompactSidebar({
   const pathname = usePathname();
   const [isHovered, setIsHovered] = useState(false);
 
+  useEffect(() => {
+    setIsHovered(false);
+  }, [pathname]);
+
   const activeSectionId = useMemo(() => {
-    if (pathname.startsWith('/dashboard')) return 'overview';
-    if (pathname.startsWith('/campaign') || pathname.startsWith('/calls'))
+    if (pathname === '/dashboard' || pathname === '/') return 'overview';
+
+    if (pathname.startsWith('/campaign') || pathname.startsWith('/calls')) {
       return 'campaigns';
-    if (pathname.startsWith('/linkedin')) return 'linkedin';
-    if (pathname.startsWith('/unified-mailbox') || pathname.startsWith('/inbox'))
+    }
+
+    if (
+      pathname.startsWith('/linkedin') ||
+      pathname.startsWith('/linkedin-outreach')
+    ) {
+      return 'linkedin';
+    }
+
+    if (
+      pathname.startsWith('/unified-mailbox') ||
+      pathname.startsWith('/inbox')
+    ) {
       return 'inbox';
+    }
+
     if (
       pathname.startsWith('/email-list') ||
       pathname.startsWith('/template-library') ||
       pathname.startsWith('/warmup')
-    )
+    ) {
       return 'data';
+    }
+
     if (pathname.startsWith('/calendar')) return 'calendar';
     if (pathname.startsWith('/email-accounts')) return 'account';
+
     if (
       pathname.startsWith('/ai-automation') ||
       pathname.startsWith('/pipeline')
-    )
+    ) {
       return 'automation';
+    }
+
     return 'overview';
   }, [pathname]);
 
   const sidebarWidth = isHovered ? 180 : 64;
-  const gap = 10;
-  const spacing = 2;
-  const sidebarLeft = isHovered ? gap : 0;
-
-  const contentLeft = isHovered ? 138 : 66;
+  const sidebarLeft = 0;
+  const contentLeft = isHovered ? 196 : 86;
   const borderRadius = isHovered ? '30px' : '8px 28px 28px 8px';
+
+  const handleNavClick = (sec: (typeof SECTIONS)[0]) => {
+    setIsHovered(false);
+    onTabChangeAction?.(sec.id);
+
+    if (pathname !== sec.path) {
+      router.push(sec.path);
+    }
+  };
 
   return (
     <div className="relative min-h-screen overflow-x-hidden bg-gradient-to-b from-blue-100 to-white">
@@ -128,7 +157,7 @@ export function CompactSidebar({
               overflow: hidden;
               display: flex;
               flex-direction: column;
-              transition: width 0.25s ease, left 0.25s ease, border-radius 0.25s ease;
+              transition: width 0.25s ease, border-radius 0.25s ease;
               box-sizing: border-box;
             }
 
@@ -290,10 +319,7 @@ export function CompactSidebar({
                 <button
                   key={sec.id}
                   className="nav-item"
-                  onClick={() => {
-                    router.push(sec.path);
-                    onTabChangeAction?.(sec.id);
-                  }}
+                  onClick={() => handleNavClick(sec)}
                   title={sec.label}
                   type="button"
                 >

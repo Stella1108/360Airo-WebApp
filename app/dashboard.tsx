@@ -405,9 +405,9 @@ export default function Dashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-100 to-white">
       <CompactSidebar activeTab={activeTab} onTabChangeAction={setActiveTab}>
-        <div className="flex flex-col h-full">
+  <div className="pt-[72px] p-0">
           <Navbar user={user} />
-          <div ref={mainRef} className="flex-1 overflow-auto p-0 pt-5">
+          <div ref={mainRef} className="flex-1 overflow-auto p-2 pt-1">
             <ComprehensiveDashboard userName={user.name} />
           </div>
         </div>

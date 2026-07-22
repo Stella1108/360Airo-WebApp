@@ -68,7 +68,7 @@ export function Navbar({ user }: { user?: UserInfo }) {
           align-items: center;
           gap: 10px;
           min-width: 180px;
-          transform: translateX(80px);
+          transform: translateX(50px);
           transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 

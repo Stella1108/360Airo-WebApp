@@ -1,14 +1,20 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '@/components/navbar';
 import { CompactSidebar } from '@/components/sidebar';
-import ComprehensiveDashboard from '@/components/dashboard';
+import ComprehensiveDashboard from '@/app/dashboard';
 import { PlaceholderPage } from '@/components/placeholder-page';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('overview');
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/dashboard');
+  }, [router]);
 
   const user = {
     name: 'John Doe',
@@ -34,7 +40,6 @@ export default function Home() {
     <div className="min-h-screen" style={{ background: '#E8EDF6' }}>
       <Navbar user={user} />
       <CompactSidebar activeTab={activeTab} onTabChangeAction={setActiveTab}>
-        {/* 🔥 reduced padding from p-6 md:p-8 to p-2 md:p-3 */}
         <div className="pt-[72px] p-0">
           <AnimatePresence mode="wait">
             <motion.div
